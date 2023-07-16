@@ -68,3 +68,11 @@ export const invoices = [
     ],
   },
 ];
+
+export const invoiceById = (id) => {
+  return invoices.find((i) => i.id === id);
+};
+
+export default (invoiceName) => {
+  return invoices.find((i) => i.name === invoiceName);
+};
