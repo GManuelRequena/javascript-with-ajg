@@ -76,3 +76,20 @@ export const invoiceById = (id) => {
 export default (invoiceName) => {
   return invoices.find((i) => i.name === invoiceName);
 };
+
+export const findInvoicesById = (id) => {
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const result = invoiceById(id);
+      // console.log(result);
+      // console.log("Realizando alguna tarea con delay");
+      if (result) {
+        resolve(result);
+      } else {
+        reject("ERROR");
+      }
+    }, 2500);
+  });
+
+  return promise;
+};
