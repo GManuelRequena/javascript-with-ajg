@@ -16,7 +16,7 @@ import { Book } from "./components/Book";
 // }
 
 // Otra forma de escribir
-export const HelloWorldApp = ({ user, id, title, book }) => {
+const HelloWorldApp = ({ user, id, title, book }) => {
   return (
     <>
       <Title title={title} />
@@ -37,3 +37,5 @@ HelloWorldApp.defaultProps = {
   title: "Hola Mundo por def",
   book: "UML got a gota",
 };
+
+export default HelloWorldApp;
