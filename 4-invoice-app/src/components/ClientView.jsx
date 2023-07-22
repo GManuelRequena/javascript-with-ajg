@@ -1,8 +1,11 @@
 import PropTypes from "prop-types";
 
 const ClientView = ({ title, client }) => {
-  const { name, lastName, address } = client;
-  const { country, city, street, number } = address;
+  const {
+    name,
+    lastName,
+    address: { country, city, street, number },
+  } = client;
   return (
     <>
       <h3>{title}</h3>
