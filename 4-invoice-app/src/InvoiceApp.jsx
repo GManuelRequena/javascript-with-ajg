@@ -28,6 +28,8 @@ const invoiceInitial = {
 };
 
 const InvoiceApp = () => {
+  const [activeForm, setActiveForm] = useState(false);
+
   const [total, setTotal] = useState(0);
 
   const [counter, setCounter] = useState(4);
@@ -77,6 +79,10 @@ const InvoiceApp = () => {
     setCounter(counter + 1);
   };
 
+  const onActiveForm = () => {
+    setActiveForm(!activeForm);
+  };
+
   return (
     <>
       <div className="container">
@@ -94,7 +100,12 @@ const InvoiceApp = () => {
             </div>
             <ProductsView title="Productos de la Factura" items={items} />
             <TotalView total={total} />
-            <FormItemsView handler={(newItem) => handlerAddItems(newItem)} />
+            <button className="btn btn-secondary" onClick={onActiveForm}>
+              {!activeForm ? "Agregar item" : "Ocultar Form"}
+            </button>
+            {!activeForm || (
+              <FormItemsView handler={(newItem) => handlerAddItems(newItem)} />
+            )}
           </div>
         </div>
       </div>
