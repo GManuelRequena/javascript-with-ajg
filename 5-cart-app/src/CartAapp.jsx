@@ -2,6 +2,11 @@ import { useEffect, useReducer } from "react";
 import CartView from "./components/CartView";
 import CatalogueView from "./components/CatalogueView";
 import { itemsReducer } from "./reducer/itemsReducer";
+import {
+  AddProductCart,
+  DeleteProductCart,
+  UpdateQuantityProductCart,
+} from "./reducer/itemsActions";
 
 const initialCartItems = JSON.parse(sessionStorage.getItem("cart")) || [];
 
@@ -16,12 +21,12 @@ const CartApp = () => {
     const hasItem = cartItems.find((i) => i.product.id === product.id);
     if (hasItem) {
       dispatch({
-        type: "UpdateQuantityProductCart",
+        type: UpdateQuantityProductCart,
         payload: product,
       });
     } else {
       dispatch({
-        type: "AddProductCart",
+        type: AddProductCart,
         payload: product,
       });
     }
@@ -29,7 +34,7 @@ const CartApp = () => {
 
   const handlerDeleteProductCart = (id) => {
     dispatch({
-      type: "DeleteProductCart",
+      type: DeleteProductCart,
       payload: id,
     });
   };
