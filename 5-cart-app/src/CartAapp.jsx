@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import CartView from "./components/CartView";
 import CatalogueView from "./components/CatalogueView";
 import { itemsReducer } from "./reducer/itemsReducer";
@@ -6,9 +6,11 @@ import { itemsReducer } from "./reducer/itemsReducer";
 const initialCartItems = JSON.parse(sessionStorage.getItem("cart")) || [];
 
 const CartApp = () => {
-  //const [cartItems, setCartItems] = useState(initialCartItems);
-
   const [cartItems, dispatch] = useReducer(itemsReducer, initialCartItems);
+
+  useEffect(() => {
+    sessionStorage.setItem("cart", JSON.stringify(cartItems));
+  }, [cartItems]);
 
   const handlerAddProductCart = (product) => {
     const hasItem = cartItems.find((i) => i.product.id === product.id);
