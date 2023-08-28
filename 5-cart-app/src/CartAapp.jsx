@@ -2,18 +2,7 @@ import { useState } from "react";
 import CartView from "./components/CartView";
 import CatalogueView from "./components/CatalogueView";
 
-const initialCartItems = [
-  // {
-  //   product: {
-  //     id: 1,
-  //     name: "Teclado Mecanico RGB",
-  //     description: "Teclado Mecánico con luces RGB switches cherry red",
-  //     price: 1000,
-  //   },
-  //   quantity: 1,
-  //   total: 0,
-  // },
-];
+const initialCartItems = JSON.parse(sessionStorage.getItem("cart")) || [];
 
 const CartApp = () => {
   const [cartItems, setCartItems] = useState(initialCartItems);
@@ -52,7 +41,7 @@ const CartApp = () => {
   };
   return (
     <>
-      <div className="container">
+      <div className="container my-4">
         <h3>CartApp</h3>
         <CatalogueView handler={handlerAddProductCart} />
         {cartItems?.length <= 0 || (
