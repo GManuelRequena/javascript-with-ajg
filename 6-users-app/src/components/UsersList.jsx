@@ -1,6 +1,7 @@
+import PropTypes from "prop-types";
 import { UserRow } from "./UserRow";
 
-export const UsersList = ({ users = [] }) => {
+export const UsersList = ({ users }) => {
   return (
     <table className="table table-hover table-stripped">
       <thead>
@@ -19,4 +20,15 @@ export const UsersList = ({ users = [] }) => {
       </tbody>
     </table>
   );
+};
+
+UsersList.propTypes = {
+  users: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      userName: PropTypes.string,
+      password: PropTypes.string,
+      email: PropTypes.string,
+    })
+  ),
 };
