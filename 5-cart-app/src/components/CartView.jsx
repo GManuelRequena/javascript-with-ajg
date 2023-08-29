@@ -1,10 +1,11 @@
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { calculateTotal } from "../services/productService";
+import { useNavigate } from "react-router-dom";
 
 const CartView = ({ items, handlerDelete }) => {
   const [total, setTotal] = useState(0);
-
+  const navigate = useNavigate();
   useEffect(() => {
     setTotal(calculateTotal(items));
   }, [items]);
@@ -12,6 +13,10 @@ const CartView = ({ items, handlerDelete }) => {
   const onDeleteProduct = (id) => {
     handlerDelete(id);
     //console.log("eliminando id: " + id);
+  };
+
+  const onCatalog = () => {
+    navigate("/catalog");
   };
   return (
     <>
@@ -55,6 +60,9 @@ const CartView = ({ items, handlerDelete }) => {
           </tr>
         </tfoot>
       </table>
+      <button className="btn btn-success" onClick={onCatalog}>
+        Continue shopping
+      </button>
     </>
   );
 };
