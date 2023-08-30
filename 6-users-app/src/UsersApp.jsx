@@ -1,30 +1,38 @@
 import { UserForm } from "./components/UserForm";
 import { UsersList } from "./components/UsersList";
+import { useUsers } from "./hooks/useUsers";
 
 export const UsersApp = () => {
-  const intialUsers = [
-    {
-      id: 1,
-      userName: "ManuReq",
-      password: "12345",
-      email: "gmanuelrequena@gmail.com",
-    },
-    {
-      id: 2,
-      userName: "Testing",
-      password: "12345",
-      email: "testing@email.com",
-    },
-  ];
+  const {
+    users,
+    userSelected,
+    initialUserForm,
+    handlerAddUser,
+    handlerRemoveUser,
+    handlerUserSelectedForm,
+  } = useUsers();
+
   return (
     <div className="container my-4">
       <h2>Users App</h2>
       <div className="row">
         <div className="col">
-          <UserForm />
+          <UserForm
+            initialUserForm={initialUserForm}
+            handlerAddUser={handlerAddUser}
+            userSelected={userSelected}
+          />
         </div>
         <div className="col">
-          <UsersList users={intialUsers} />
+          {users.length === 0 ? (
+            <div className="alert alert-warning">No users</div>
+          ) : (
+            <UsersList
+              users={users}
+              handlerRemoveUser={handlerRemoveUser}
+              handlerUserSelectedForm={handlerUserSelectedForm}
+            />
+          )}
         </div>
       </div>
     </div>

@@ -1,7 +1,11 @@
 import PropTypes from "prop-types";
 import { UserRow } from "./UserRow";
 
-export const UsersList = ({ users }) => {
+export const UsersList = ({
+  users,
+  handlerRemoveUser,
+  handlerUserSelectedForm,
+}) => {
   return (
     <table className="table table-hover table-stripped">
       <thead>
@@ -14,8 +18,15 @@ export const UsersList = ({ users }) => {
         </tr>
       </thead>
       <tbody>
-        {users.map(({ id, userName, email }) => (
-          <UserRow key={id} id={id} userName={userName} email={email} />
+        {users.map(({ id, username, email }) => (
+          <UserRow
+            key={id}
+            id={id}
+            username={username}
+            email={email}
+            handlerRemoveUser={handlerRemoveUser}
+            handlerUserSelectedForm={handlerUserSelectedForm}
+          />
         ))}
       </tbody>
     </table>
@@ -26,9 +37,11 @@ UsersList.propTypes = {
   users: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number,
-      userName: PropTypes.string,
+      username: PropTypes.string,
       password: PropTypes.string,
       email: PropTypes.string,
     })
   ),
+  handlerRemoveUser: PropTypes.func,
+  handlerUserSelectedForm: PropTypes.func,
 };
