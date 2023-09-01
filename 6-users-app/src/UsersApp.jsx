@@ -1,51 +1,47 @@
-import { UserForm } from "./components/UserForm";
-import { UsersList } from "./components/UsersList";
-import { useUsers } from "./hooks/useUsers";
+import { useReducer } from "react";
+import { LoginPage } from "./auth/pages/LoginPage";
+import { loginReducer } from "./auth/reducers/loginReducer";
+import Swal from "sweetalert2";
+import { UsersPage } from "./pages/UsersPage";
+import { Navbar } from "./components/Navbar";
+
+const initialLoigin = JSON.parse(sessionStorage.getItem("login")) || {
+  isAuth: false,
+  user: undefined,
+};
 
 export const UsersApp = () => {
-  const {
-    users,
-    userSelected,
-    initialUserForm,
-    handlerAddUser,
-    handlerRemoveUser,
-    handlerUserSelectedForm,
-    visibleForm,
-    handlerOpenForm,
-    handlerCloseForm,
-  } = useUsers();
+  const [login, dispatch] = useReducer(loginReducer, initialLoigin);
+  const handlerLogin = ({ username, password }) => {
+    if (username === "admin" && password === "12345") {
+      const user = { username: "admin" };
+      dispatch({
+        type: "login",
+        payload: user,
+      });
+      sessionStorage.setItem("login", JSON.stringify({ isAuth: true, user }));
+    } else {
+      Swal.fire("Validation Error", "Username or Password are wrong", "error");
+    }
+  };
+
+  const handlerLogOut = () => {
+    dispatch({
+      type: "logout",
+    });
+    sessionStorage.removeItem("login");
+  };
 
   return (
-    <div className="container my-4">
-      <h2>Users App</h2>
-      <div className="row">
-        {!visibleForm || (
-          <div className="col">
-            <UserForm
-              initialUserForm={initialUserForm}
-              handlerAddUser={handlerAddUser}
-              userSelected={userSelected}
-              handlerCloseForm={handlerCloseForm}
-            />
-          </div>
-        )}
-        <div className="col">
-          {visibleForm || (
-            <button className="btn btn-primary my-2" onClick={handlerOpenForm}>
-              New User
-            </button>
-          )}
-          {users.length === 0 ? (
-            <div className="alert alert-warning">No users</div>
-          ) : (
-            <UsersList
-              users={users}
-              handlerRemoveUser={handlerRemoveUser}
-              handlerUserSelectedForm={handlerUserSelectedForm}
-            />
-          )}
-        </div>
-      </div>
-    </div>
+    <>
+      {login.isAuth ? (
+        <>
+          <Navbar login={login} handlerLogOut={handlerLogOut} />
+          <UsersPage />
+        </>
+      ) : (
+        <LoginPage handlerLogin={handlerLogin} />
+      )}
+    </>
   );
 };
