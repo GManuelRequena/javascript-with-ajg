@@ -34,6 +34,10 @@ export const UserForm = ({
       Swal.fire("Validation Error", "Complete all inputs", "error");
       return;
     }
+    if (!email.includes("@")) {
+      Swal.fire("Validation Error", "Email is not correct", "error");
+      return;
+    }
     handlerAddUser(userForm);
     setUserForm(initialUserForm);
   };
@@ -72,13 +76,15 @@ export const UserForm = ({
       <button className="btn btn-primary" type="submit">
         {id > 0 ? "Edit" : "Create"}
       </button>
-      <button
-        className="btn btn-primary mx-2"
-        type="button"
-        onClick={() => onCloseForm()}
-      >
-        Close
-      </button>
+      {!handlerCloseForm || (
+        <button
+          className="btn btn-primary mx-2"
+          type="button"
+          onClick={() => onCloseForm()}
+        >
+          Close
+        </button>
+      )}
     </form>
   );
 };

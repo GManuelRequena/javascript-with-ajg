@@ -1,8 +1,10 @@
+import { NavLink } from "react-router-dom";
+
 export const Navbar = ({ login, handlerLogOut }) => {
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
-        <a className="navbar-brand" href="#">
+        <a className="navbar-brand" href="/users">
           UsersApp
         </a>
         <button
@@ -16,9 +18,27 @@ export const Navbar = ({ login, handlerLogOut }) => {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
+
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <ul className="navbar-nav">
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/users">
+                Users
+              </NavLink>
+            </li>
+          </ul>
+          <ul className="navbar-nav">
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/users/register">
+                Add User
+              </NavLink>
+            </li>
+          </ul>
+        </div>
+
         <div
           className="collapse navbar-collapse justify-content-end"
-          id="navbarNav"
+          id="navbarNavLogout"
         >
           <span className="nav-item nav-link text-primary mx-3">
             {login.user?.username}
