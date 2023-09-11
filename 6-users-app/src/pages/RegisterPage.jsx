@@ -1,12 +1,10 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserForm } from "../components/UserForm";
 import { useParams } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 
-export const RegisterPage = ({
-  users = [],
-  handlerAddUser,
-  initialUserForm,
-}) => {
+export const RegisterPage = () => {
+  const { users = [], initialUserForm } = useContext(UserContext);
   const [userSelected, setUserSelected] = useState(initialUserForm);
 
   const { id } = useParams();
@@ -22,11 +20,7 @@ export const RegisterPage = ({
       <h4>{userSelected.id > 0 ? "Edit User" : "Register User"}</h4>
       <div className="row">
         <div className="col">
-          <UserForm
-            handlerAddUser={handlerAddUser}
-            initialUserForm={initialUserForm}
-            userSelected={userSelected}
-          />
+          <UserForm userSelected={userSelected} />
         </div>
       </div>
     </div>
