@@ -42,7 +42,7 @@ export const LoginPage = () => {
               <div className="modal-body">
                 <input
                   className="form-control w-75"
-                  placeholder="userName"
+                  placeholder="username"
                   name="userName"
                   value={userName}
                   onChange={onInputChange}
