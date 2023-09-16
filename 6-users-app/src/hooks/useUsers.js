@@ -21,7 +21,6 @@ export const useUsers = () => {
 
   const getUsers = async () => {
     const result = await getAllUsers();
-    console.log(result.data);
     dispatch({
       type: "loadingUsers",
       payload: result.data,
@@ -48,8 +47,7 @@ export const useUsers = () => {
     );
 
     handlerCloseForm();
-
-    navigate("/users");
+    navigate("/");
   };
 
   const handlerRemoveUser = (id) => {
