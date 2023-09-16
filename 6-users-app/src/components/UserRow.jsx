@@ -3,14 +3,14 @@ import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 
-export const UserRow = ({ id, username, email }) => {
+export const UserRow = ({ id, userName, email }) => {
   const { handlerRemoveUser, handlerUserSelectedForm } =
     useContext(UserContext);
   return (
     <>
       <tr>
         <td>{id}</td>
-        <td>{username}</td>
+        <td>{userName}</td>
         <td>{email}</td>
         <td>
           <button
@@ -19,7 +19,7 @@ export const UserRow = ({ id, username, email }) => {
             onClick={() =>
               handlerUserSelectedForm({
                 id,
-                username,
+                userName: userName,
                 email,
               })
             }
@@ -52,7 +52,7 @@ export const UserRow = ({ id, username, email }) => {
 
 UserRow.propTypes = {
   id: PropTypes.number,
-  username: PropTypes.string,
+  userName: PropTypes.string,
   email: PropTypes.string,
   handlerRemoveUser: PropTypes.func,
   handlerUserSelectedForm: PropTypes.func,

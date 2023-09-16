@@ -44,7 +44,7 @@ export const Navbar = () => {
           id="navbarNavLogout"
         >
           <span className="nav-item nav-link text-primary mx-3">
-            {login.user?.username}
+            {login.user?.userName}
           </span>
           <button onClick={handlerLogOut} className="btn btn-outline-success">
             Logout

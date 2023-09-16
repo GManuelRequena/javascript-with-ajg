@@ -3,14 +3,14 @@ import Swal from "sweetalert2";
 import { AuthContext } from "../context/AuthContext";
 
 const initialLoginForm = {
-  username: "",
+  userName: "",
   password: "",
 };
 
 export const LoginPage = () => {
   const { handlerLogin } = useContext(AuthContext);
   const [loginForm, setLoginForm] = useState(initialLoginForm);
-  const { username, password } = loginForm;
+  const { userName, password } = loginForm;
   const onInputChange = ({ target }) => {
     const { name, value } = target;
 
@@ -22,11 +22,11 @@ export const LoginPage = () => {
 
   const onSubmit = (event) => {
     event.preventDefault();
-    if (!username || !password) {
+    if (!userName || !password) {
       Swal.fire("Validation Error", "Username and Password required", "error");
     }
 
-    handlerLogin({ username, password });
+    handlerLogin({ userName, password });
 
     setLoginForm(initialLoginForm);
   };
@@ -42,9 +42,9 @@ export const LoginPage = () => {
               <div className="modal-body">
                 <input
                   className="form-control w-75"
-                  placeholder="Username"
-                  name="username"
-                  value={username}
+                  placeholder="userName"
+                  name="userName"
+                  value={userName}
                   onChange={onInputChange}
                 />
                 <input

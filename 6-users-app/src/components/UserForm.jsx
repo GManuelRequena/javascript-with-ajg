@@ -8,7 +8,7 @@ export const UserForm = ({ userSelected, handlerCloseForm }) => {
 
   const [userForm, setUserForm] = useState(initialUserForm);
 
-  const { id, username, password, email } = userForm;
+  const { id, userName, password, email } = userForm;
 
   useEffect(() => {
     setUserForm({
@@ -28,7 +28,7 @@ export const UserForm = ({ userSelected, handlerCloseForm }) => {
 
   const onSubmit = (event) => {
     event.preventDefault();
-    if (!username || (!password && id === 0) || !email) {
+    if (!userName || (!password && id === 0) || !email) {
       Swal.fire("Validation Error", "Complete all inputs", "error");
       return;
     }
@@ -48,9 +48,9 @@ export const UserForm = ({ userSelected, handlerCloseForm }) => {
     <form onSubmit={onSubmit}>
       <input
         className="form-control my-3 w-75"
-        placeholder="Username"
-        name="username"
-        value={username}
+        placeholder="userName"
+        name="userName"
+        value={userName}
         onChange={onInputChange}
       />
       {id > 0 || (

@@ -18,8 +18,8 @@ export const UsersList = () => {
         </tr>
       </thead>
       <tbody>
-        {users.map(({ id, username, email }) => (
-          <UserRow key={id} id={id} username={username} email={email} />
+        {users.map(({ id, userName, email }) => (
+          <UserRow key={id} id={id} userName={userName} email={email} />
         ))}
       </tbody>
     </table>
@@ -30,7 +30,7 @@ UsersList.propTypes = {
   users: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number,
-      username: PropTypes.string,
+      userName: PropTypes.string,
       password: PropTypes.string,
       email: PropTypes.string,
     })

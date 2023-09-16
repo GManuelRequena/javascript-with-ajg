@@ -12,10 +12,10 @@ const initialLogin = JSON.parse(sessionStorage.getItem("login")) || {
 export const useAuth = () => {
   const [login, dispatch] = useReducer(loginReducer, initialLogin);
   const navigate = useNavigate();
-  const handlerLogin = ({ username, password }) => {
-    const isLogin = loginUser({ username, password });
+  const handlerLogin = ({ userName, password }) => {
+    const isLogin = loginUser({ userName, password });
     if (isLogin) {
-      const user = { username: "admin" };
+      const user = { userName: "admin" };
       dispatch({
         type: "login",
         payload: user,
