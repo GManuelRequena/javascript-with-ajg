@@ -7,7 +7,7 @@ export const getAllUsers = async () => {
     const response = await axios.get(BASE_URL + "/all");
     return response;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 
   return null;
@@ -26,11 +26,10 @@ export const save = async ({ userName, password, email }) => {
   return undefined;
 };
 
-export const update = async ({ id, userName, password, email }) => {
+export const update = async ({ id, userName, email }) => {
   try {
     return await axios.put(`${BASE_URL}/${id}`, {
       userName,
-      password,
       email,
     });
   } catch (error) {
@@ -45,5 +44,4 @@ export const deleteUser = async (id) => {
   } catch (error) {
     console.error(error);
   }
-  return console.log("The user was removed");
 };
