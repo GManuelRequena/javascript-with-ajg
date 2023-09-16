@@ -10,7 +10,7 @@ export const UsersList = () => {
       <thead>
         <tr>
           <th>ID</th>
-          <th>UserName</th>
+          <th>Username</th>
           <th>Email</th>
           <th>Update</th>
           <th>Update route</th>
