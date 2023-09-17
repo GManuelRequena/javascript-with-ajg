@@ -4,11 +4,13 @@ import Swal from "sweetalert2";
 import { UserContext } from "../context/UserContext";
 
 export const UserForm = ({ userSelected, handlerCloseForm }) => {
-  const { initialUserForm, handlerAddUser } = useContext(UserContext);
+  const { initialUserForm, handlerAddUser, errors } = useContext(UserContext);
 
   const [userForm, setUserForm] = useState(initialUserForm);
 
   const { id, userName, password, email } = userForm;
+
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     setUserForm({
@@ -28,16 +30,15 @@ export const UserForm = ({ userSelected, handlerCloseForm }) => {
 
   const onSubmit = (event) => {
     event.preventDefault();
-    if (!userName || (!password && id === 0) || !email) {
-      Swal.fire("Validation Error", "Complete all inputs", "error");
-      return;
-    }
-    if (!email.includes("@")) {
-      Swal.fire("Validation Error", "Email is not correct", "error");
-      return;
-    }
+    // if (!userName || (!password && id === 0) || !email) {
+    //   Swal.fire("Validation Error", "Complete all inputs", "error");
+    //   return;
+    // }
+    // if (!email.includes("@")) {
+    //   Swal.fire("Validation Error", "Email is not correct", "error");
+    //   return;
+    // }
     handlerAddUser(userForm);
-    setUserForm(initialUserForm);
   };
 
   const onCloseForm = () => {
@@ -53,15 +54,28 @@ export const UserForm = ({ userSelected, handlerCloseForm }) => {
         value={userName}
         onChange={onInputChange}
       />
+      <p className="text-danger">{errors?.userName}</p>
       {id > 0 || (
-        <input
-          className="form-control my-3 w-75"
-          placeholder="Password"
-          type="password"
-          name="password"
-          value={password}
-          onChange={onInputChange}
-        />
+        <div className="input-group my-2 w-75">
+          <input
+            className="form-control"
+            placeholder="Password"
+            type={showPassword ? "text" : "password"}
+            name="password"
+            value={password}
+            onChange={onInputChange}
+          />
+          <p className="text-danger">{errors?.password}</p>
+          <div className="input-group-append mx-1">
+            <button
+              className="btn btn-outline-secondary"
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? "Hide" : "Show"}
+            </button>
+          </div>
+        </div>
       )}
       <input
         className="form-control my-3 w-75"
@@ -70,6 +84,7 @@ export const UserForm = ({ userSelected, handlerCloseForm }) => {
         value={email}
         onChange={onInputChange}
       />
+      <p className="text-danger">{errors?.email}</p>
       <input type="hidden" name="id" value={id} />
       <button className="btn btn-primary" type="submit">
         {id > 0 ? "Edit" : "Create"}
