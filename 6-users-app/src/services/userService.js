@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:8080/api/v1/users";
+const BASE_URL = "http://localhost:9898/api/v1/users";
 
 export const getAllUsers = async () => {
   try {
@@ -16,14 +16,13 @@ export const getAllUsers = async () => {
 export const save = async ({ userName, password, email }) => {
   try {
     return await axios.post(BASE_URL, {
-      userName: userName,
+      userName,
       password,
       email,
     });
   } catch (error) {
-    console.error(error);
+    throw error;
   }
-  return undefined;
 };
 
 export const update = async ({ id, userName, email }) => {
@@ -33,9 +32,8 @@ export const update = async ({ id, userName, email }) => {
       email,
     });
   } catch (error) {
-    console.error(error);
+    throw error;
   }
-  return undefined;
 };
 
 export const deleteUser = async (id) => {
