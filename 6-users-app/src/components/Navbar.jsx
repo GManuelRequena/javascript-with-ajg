@@ -31,11 +31,13 @@ export const Navbar = () => {
             </li>
           </ul>
           <ul className="navbar-nav">
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/users/register">
-                Add User
-              </NavLink>
-            </li>
+            {!login.isAdmin || (
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/users/register">
+                  Add User
+                </NavLink>
+              </li>
+            )}
           </ul>
         </div>
 
@@ -44,7 +46,7 @@ export const Navbar = () => {
           id="navbarNavLogout"
         >
           <span className="nav-item nav-link text-primary mx-3">
-            {login.user?.userName}
+            {login.user?.username}
           </span>
           <button onClick={handlerLogOut} className="btn btn-outline-success">
             Logout

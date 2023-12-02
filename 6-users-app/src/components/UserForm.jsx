@@ -8,7 +8,7 @@ export const UserForm = ({ userSelected, handlerCloseForm }) => {
 
   const [userForm, setUserForm] = useState(initialUserForm);
 
-  const { id, userName, password, email } = userForm;
+  const { id, username, password, email } = userForm;
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -30,7 +30,7 @@ export const UserForm = ({ userSelected, handlerCloseForm }) => {
 
   const onSubmit = (event) => {
     event.preventDefault();
-    // if (!userName || (!password && id === 0) || !email) {
+    // if (!username || (!password && id === 0) || !email) {
     //   Swal.fire("Validation Error", "Complete all inputs", "error");
     //   return;
     // }
@@ -50,11 +50,11 @@ export const UserForm = ({ userSelected, handlerCloseForm }) => {
       <input
         className="form-control my-3 w-75"
         placeholder="Username"
-        name="userName"
-        value={userName}
+        name="username"
+        value={username}
         onChange={onInputChange}
       />
-      <p className="text-danger">{errors?.userName}</p>
+      <p className="text-danger">{errors?.username}</p>
       {id > 0 || (
         <div className="input-group my-2 w-75">
           <input
