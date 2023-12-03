@@ -1,8 +1,9 @@
-import { useReducer, useState } from "react";
+import { useContext, useReducer, useState } from "react";
 import { usersReducer } from "../reducers/usersReducer";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { deleteUser, getAllUsers, save, update } from "../services/userService";
+import { AuthContext } from "../auth/context/AuthContext";
 
 const intialUsers = [];
 
@@ -11,6 +12,7 @@ const initialUserForm = {
   username: "",
   password: "",
   email: "",
+  admin: false,
 };
 
 const initialErrors = {
@@ -26,14 +28,23 @@ export const useUsers = () => {
   const [errors, setErrors] = useState(initialErrors);
   const navigate = useNavigate();
 
+  const { login, handlerLogout } = useContext(AuthContext);
+
   const getUsers = async () => {
-    const result = await getAllUsers();
-    dispatch({
-      type: "loadingUsers",
-      payload: result.data,
-    });
+    try {
+      const result = await getAllUsers();
+      dispatch({
+        type: "loadingUsers",
+        payload: result.data,
+      });
+    } catch (error) {
+      if (error.response?.status == 401) {
+        handlerLogout();
+      }
+    }
   };
   const handlerAddUser = async (user) => {
+    if (!login.isAdmin) return;
     let response;
     try {
       if (user.id === 0) {
@@ -70,6 +81,8 @@ export const useUsers = () => {
         if (error.response.data?.message?.includes("UK_email")) {
           setErrors({ email: "That email is already in use" });
         }
+      } else if (error.response?.status == 401) {
+        handlerLogout();
       } else {
         throw error;
       }
@@ -85,14 +98,21 @@ export const useUsers = () => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        deleteUser(id);
-        dispatch({
-          type: "removeUser",
-          payload: id,
-        });
-        Swal.fire("Deleted!", "The user has been deleted.", "success");
+        try {
+          await deleteUser(id);
+          dispatch({
+            type: "removeUser",
+            payload: id,
+          });
+          Swal.fire("Deleted!", "The user has been deleted.", "success");
+        } catch (error) {
+          console.log(error.response.status);
+          if (error.response?.status == 401) {
+            handlerLogout();
+          }
+        }
       }
     });
   };

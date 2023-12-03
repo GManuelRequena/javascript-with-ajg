@@ -1,54 +1,38 @@
-import axios from "axios";
+import usersApi from "../apis/usersApi";
 
-const BASE_URL = "http://localhost:9898/api/v1/users";
-
-const config = () => {
-  return {
-    headers: {
-      Authorization: sessionStorage.getItem("token"),
-      "Content-Type": "application/json",
-    },
-  };
-};
+const BASE_URL = "";
 
 export const getAllUsers = async () => {
   try {
-    const response = await axios.get(BASE_URL + "/all");
+    const response = await usersApi.get(BASE_URL + "/all");
     return response;
   } catch (error) {
     console.error(error);
+    throw error;
   }
-
-  return null;
 };
 
-export const save = async ({ username, password, email }) => {
+export const save = async ({ username, password, email, admin }) => {
   try {
-    return await axios.post(
-      BASE_URL,
-      {
-        username,
-        password,
-        email,
-      },
-      config()
-    );
+    return await usersApi.post(BASE_URL, {
+      username,
+      password,
+      email,
+      admin,
+    });
   } catch (error) {
     console.log(error);
     throw error;
   }
 };
 
-export const update = async ({ id, username, email }) => {
+export const update = async ({ id, username, email, admin }) => {
   try {
-    return await axios.put(
-      `${BASE_URL}/${id}`,
-      {
-        username,
-        email,
-      },
-      config()
-    );
+    return await usersApi.put(`${BASE_URL}/${id}`, {
+      username,
+      email,
+      admin,
+    });
   } catch (error) {
     console.log(error);
     throw error;
@@ -57,8 +41,9 @@ export const update = async ({ id, username, email }) => {
 
 export const deleteUser = async (id) => {
   try {
-    await axios.delete(`${BASE_URL}/${id}`, config());
+    await usersApi.delete(`${BASE_URL}/${id}`);
   } catch (error) {
     console.error(error);
+    throw error;
   }
 };

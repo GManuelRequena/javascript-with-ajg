@@ -44,7 +44,7 @@ export const useAuth = () => {
     }
   };
 
-  const handlerLogOut = () => {
+  const handlerLogout = () => {
     dispatch({
       type: "logout",
     });
@@ -56,6 +56,6 @@ export const useAuth = () => {
   return {
     login,
     handlerLogin,
-    handlerLogOut,
+    handlerLogout,
   };
 };

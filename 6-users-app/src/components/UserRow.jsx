@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import { AuthContext } from "../auth/context/AuthContext";
 
-export const UserRow = ({ id, username, email }) => {
+export const UserRow = ({ id, username, email, admin }) => {
   const { login } = useContext(AuthContext);
   const { handlerRemoveUser, handlerUserSelectedForm } =
     useContext(UserContext);
@@ -25,6 +25,7 @@ export const UserRow = ({ id, username, email }) => {
                     id,
                     username: username,
                     email,
+                    admin,
                   })
                 }
               >
@@ -60,6 +61,7 @@ UserRow.propTypes = {
   id: PropTypes.number,
   username: PropTypes.string,
   email: PropTypes.string,
+  admin: PropTypes.bool,
   handlerRemoveUser: PropTypes.func,
   handlerUserSelectedForm: PropTypes.func,
 };

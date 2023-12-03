@@ -2,13 +2,13 @@ import { useAuth } from "../hooks/useAuth";
 import { AuthContext } from "./AuthContext";
 
 export const AuthProvider = ({ children }) => {
-  const { login, handlerLogin, handlerLogOut } = useAuth();
+  const { login, handlerLogin, handlerLogout } = useAuth();
   return (
     <AuthContext.Provider
       value={{
         login,
         handlerLogin,
-        handlerLogOut,
+        handlerLogout,
       }}
     >
       {children}
