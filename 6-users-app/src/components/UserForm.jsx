@@ -1,10 +1,9 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-// import Swal from "sweetalert2";
-import { UserContext } from "../context/UserContext";
+import { useUsers } from "../hooks/useUsers";
 
 export const UserForm = ({ userSelected, handlerCloseForm }) => {
-  const { initialUserForm, handlerAddUser, errors } = useContext(UserContext);
+  const { initialUserForm, handlerAddUser, errors } = useUsers();
 
   const [userForm, setUserForm] = useState(initialUserForm);
   const [checked, setChecked] = useState(userForm.admin);
@@ -38,14 +37,6 @@ export const UserForm = ({ userSelected, handlerCloseForm }) => {
 
   const onSubmit = (event) => {
     event.preventDefault();
-    // if (!username || (!password && id === 0) || !email) {
-    //   Swal.fire("Validation Error", "Complete all inputs", "error");
-    //   return;
-    // }
-    // if (!email.includes("@")) {
-    //   Swal.fire("Validation Error", "Email is not correct", "error");
-    //   return;
-    // }
     handlerAddUser(userForm);
   };
 

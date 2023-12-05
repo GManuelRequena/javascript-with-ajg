@@ -1,31 +1,26 @@
-import { useContext, useReducer, useState } from "react";
-import { usersReducer } from "../reducers/usersReducer";
+import { useContext } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { deleteUser, getAllUsers, save, update } from "../services/userService";
 import { AuthContext } from "../auth/context/AuthContext";
-
-const intialUsers = [];
-
-const initialUserForm = {
-  id: 0,
-  username: "",
-  password: "",
-  email: "",
-  admin: false,
-};
-
-const initialErrors = {
-  username: "",
-  password: "",
-  email: "",
-};
+import { useDispatch, useSelector } from "react-redux";
+import {
+  initialUserForm,
+  addUser,
+  removeUser,
+  updateUser,
+  loadingUsers,
+  onUserSelectedForm,
+  onOpenForm,
+  onCloseForm,
+  onError,
+} from "../store/slices/users/usersSlice";
 
 export const useUsers = () => {
-  const [users, dispatch] = useReducer(usersReducer, intialUsers);
-  const [userSelected, setUserSelected] = useState(initialUserForm);
-  const [visibleForm, setVisibleForm] = useState(false);
-  const [errors, setErrors] = useState(initialErrors);
+  const { users, userSelected, visibleForm, errors } = useSelector(
+    (state) => state.users
+  );
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { login, handlerLogout } = useContext(AuthContext);
@@ -33,10 +28,7 @@ export const useUsers = () => {
   const getUsers = async () => {
     try {
       const result = await getAllUsers();
-      dispatch({
-        type: "loadingUsers",
-        payload: result.data,
-      });
+      dispatch(loadingUsers(result.data));
     } catch (error) {
       if (error.response?.status == 401) {
         handlerLogout();
@@ -49,13 +41,11 @@ export const useUsers = () => {
     try {
       if (user.id === 0) {
         response = await save(user);
+        dispatch(addUser(response.data));
       } else {
         response = await update(user);
+        dispatch(updateUser(response.data));
       }
-      dispatch({
-        type: user.id === 0 ? "addUser" : "updateUser",
-        payload: response.data,
-      });
 
       Swal.fire(
         user.id === 0 ? "Created" : "Updated",
@@ -69,17 +59,17 @@ export const useUsers = () => {
       navigate("/");
     } catch (error) {
       if (error.response && error.response.status == 400) {
-        setErrors(error.response.data);
+        dispatch(onError(error.response.data));
       } else if (
         error.response &&
         error.response.status == 500 &&
         error.response.data?.message?.includes("constraint")
       ) {
         if (error.response.data?.message?.includes("UK_username")) {
-          setErrors({ username: "That username is already in use" });
+          dispatch(onError({ username: "That username is already in use" }));
         }
         if (error.response.data?.message?.includes("UK_email")) {
-          setErrors({ email: "That email is already in use" });
+          dispatch(onError({ email: "That email is already in use" }));
         }
       } else if (error.response?.status == 401) {
         handlerLogout();
@@ -102,10 +92,7 @@ export const useUsers = () => {
       if (result.isConfirmed) {
         try {
           await deleteUser(id);
-          dispatch({
-            type: "removeUser",
-            payload: id,
-          });
+          dispatch(removeUser(id));
           Swal.fire("Deleted!", "The user has been deleted.", "success");
         } catch (error) {
           console.log(error.response.status);
@@ -118,18 +105,16 @@ export const useUsers = () => {
   };
 
   const handlerUserSelectedForm = (user) => {
-    setVisibleForm(true);
-    setUserSelected({ ...user });
+    dispatch(onUserSelectedForm({ ...user }));
   };
 
   const handlerOpenForm = () => {
-    setVisibleForm(true);
+    dispatch(onOpenForm());
   };
 
   const handlerCloseForm = () => {
-    setVisibleForm(false);
-    setUserSelected(initialUserForm);
-    setErrors({});
+    dispatch(onCloseForm());
+    dispatch(onError({}));
   };
 
   return {
