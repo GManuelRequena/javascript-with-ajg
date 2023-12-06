@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialLogin = JSON.parse(sessionStorage.getItem("login")) || {
+export const initialLogin = JSON.parse(sessionStorage.getItem("login")) || {
   isAuth: false,
   isAdmin: false,
   user: undefined,
@@ -8,9 +8,7 @@ const initialLogin = JSON.parse(sessionStorage.getItem("login")) || {
 
 export const authSlice = createSlice({
   name: "auth",
-  initialState: {
-    login: initialLogin,
-  },
+  initialState: initialLogin,
   reducers: {
     onLogin: (state, action) => {
       state.isAuth = true;

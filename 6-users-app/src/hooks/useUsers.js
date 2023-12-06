@@ -1,8 +1,6 @@
-import { useContext } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { deleteUser, getAllUsers, save, update } from "../services/userService";
-import { AuthContext } from "../auth/context/AuthContext";
 import { useDispatch, useSelector } from "react-redux";
 import {
   initialUserForm,
@@ -15,6 +13,7 @@ import {
   onCloseForm,
   onError,
 } from "../store/slices/users/usersSlice";
+import { useAuth } from "../auth/hooks/useAuth";
 
 export const useUsers = () => {
   const { users, userSelected, visibleForm, errors } = useSelector(
@@ -23,7 +22,7 @@ export const useUsers = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { login, handlerLogout } = useContext(AuthContext);
+  const { login, handlerLogout } = useAuth();
 
   const getUsers = async () => {
     try {

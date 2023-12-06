@@ -2,7 +2,7 @@ import Swal from "sweetalert2";
 import { loginUser } from "../services/authService";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { onLogin, onLogout } from "6-users-app/src/store/slices/auth/authSlice";
+import { onLogin, onLogout } from "../../store/slices/auth/authSlice";
 
 export const useAuth = () => {
   const dispatch = useDispatch();
@@ -14,6 +14,7 @@ export const useAuth = () => {
       const token = response.data.token;
       const claims = JSON.parse(window.atob(token.split(".")[1]));
       const user = { username: response.data.username };
+      console.log("HERE");
       dispatch(onLogin({ user, isAdmin: claims.isAdmin }));
       sessionStorage.setItem(
         "login",
