@@ -4,8 +4,7 @@ const BASE_URL = "";
 
 export const getAllUsers = async () => {
   try {
-    const response = await usersApi.get(BASE_URL + "/all");
-    return response;
+    return await usersApi.get(BASE_URL + "/all");
   } catch (error) {
     console.error(error);
     throw error;
@@ -42,6 +41,15 @@ export const update = async ({ id, username, email, admin }) => {
 export const deleteUser = async (id) => {
   try {
     await usersApi.delete(`${BASE_URL}/${id}`);
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const getAllUsersPages = async (page = 0) => {
+  try {
+    return await usersApi.get(`${BASE_URL}/page/${page}`);
   } catch (error) {
     console.error(error);
     throw error;

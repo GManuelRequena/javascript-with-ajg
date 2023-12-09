@@ -1,6 +1,11 @@
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import { deleteUser, getAllUsers, save, update } from "../services/userService";
+import {
+  deleteUser,
+  getAllUsersPages,
+  save,
+  update,
+} from "../services/userService";
 import { useDispatch, useSelector } from "react-redux";
 import {
   initialUserForm,
@@ -16,17 +21,16 @@ import {
 import { useAuth } from "../auth/hooks/useAuth";
 
 export const useUsers = () => {
-  const { users, userSelected, visibleForm, errors } = useSelector(
-    (state) => state.users
-  );
+  const { users, userSelected, visibleForm, errors, isLoading, paginator } =
+    useSelector((state) => state.users);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { login, handlerLogout } = useAuth();
 
-  const getUsers = async () => {
+  const getUsers = async (page = 0) => {
     try {
-      const result = await getAllUsers();
+      const result = await getAllUsersPages(page);
       dispatch(loadingUsers(result.data));
     } catch (error) {
       if (error.response?.status == 401) {
@@ -94,7 +98,6 @@ export const useUsers = () => {
           dispatch(removeUser(id));
           Swal.fire("Deleted!", "The user has been deleted.", "success");
         } catch (error) {
-          console.log(error.response.status);
           if (error.response?.status == 401) {
             handlerLogout();
           }
@@ -128,5 +131,7 @@ export const useUsers = () => {
     handlerCloseForm,
     getUsers,
     errors,
+    isLoading,
+    paginator,
   };
 };

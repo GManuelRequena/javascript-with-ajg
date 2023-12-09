@@ -14,7 +14,6 @@ export const useAuth = () => {
       const token = response.data.token;
       const claims = JSON.parse(window.atob(token.split(".")[1]));
       const user = { username: response.data.username };
-      console.log("HERE");
       dispatch(onLogin({ user, isAdmin: claims.isAdmin }));
       sessionStorage.setItem(
         "login",

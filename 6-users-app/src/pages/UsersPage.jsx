@@ -3,13 +3,34 @@ import { UserModalForm } from "../components/UserModalForm";
 import { UsersList } from "../components/UsersList";
 import { useUsers } from "../hooks/useUsers";
 import { useAuth } from "../auth/hooks/useAuth";
+import { useParams } from "react-router-dom";
+import { Paginator } from "../components/Paginator";
 export const UsersPage = () => {
-  const { users, visibleForm, handlerOpenForm, getUsers } = useUsers();
+  const { page } = useParams();
+
+  const {
+    users,
+    visibleForm,
+    isLoading,
+    handlerOpenForm,
+    getUsers,
+    paginator,
+  } = useUsers();
   useEffect(() => {
-    getUsers();
-  }, []);
+    getUsers(page);
+  }, [, page]);
 
   const { login } = useAuth();
+
+  if (isLoading) {
+    return (
+      <div className="container my-4">
+        <div className="spinner-border text-warning" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
   return (
     <>
       {!visibleForm || <UserModalForm />}
@@ -29,7 +50,10 @@ export const UsersPage = () => {
             {users.length === 0 ? (
               <div className="alert alert-warning">No users</div>
             ) : (
-              <UsersList />
+              <>
+                <UsersList />
+                <Paginator url="/users/page" paginator={paginator} />
+              </>
             )}
           </div>
         </div>
